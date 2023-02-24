@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import styles from 'styles/TodoItem.module.css';
+import PropTypes from 'prop-types';
 
-const TodoItem = ({ itemProp, handleChange, delTodo, setUpdate }) => {
+const TodoItem = ({
+  itemProp, handleChange, delTodo, setUpdate,
+}) => {
   const [editing, setEditing] = useState(false);
   const completedStyle = {
     fontStyle: 'italic',
@@ -12,8 +15,8 @@ const TodoItem = ({ itemProp, handleChange, delTodo, setUpdate }) => {
   const handleEditing = () => {
     setEditing(true);
   };
-  let viewMode = {};
-  let editMode = {};
+  const viewMode = {};
+  const editMode = {};
   if (editing) {
     viewMode.display = 'none';
   } else {
@@ -32,21 +35,29 @@ const TodoItem = ({ itemProp, handleChange, delTodo, setUpdate }) => {
           checked={itemProp.completed}
           onChange={() => handleChange(itemProp.id)}
         />
-        <button onClick={handleEditing}>Edit</button>
-        <button onClick={() => delTodo(itemProp.id)}>Delete</button>
+        <button type="button" onClick={handleEditing}>Edit</button>
+        <button type="button" onClick={() => delTodo(itemProp.id)}>Delete</button>
         <span style={itemProp.completed ? completedStyle : null}>
           {itemProp.title}
         </span>
       </div>
       <input
-      type="text"
-      value={itemProp.title}
-      className={styles.textInput}
-      style={editMode}
-      onChange={(e) => setUpdate(e.target.value, itemProp.id)}
-      onKeyDown={handleUpdatedDone}   
-    />
+        type="text"
+        value={itemProp.title}
+        className={styles.textInput}
+        style={editMode}
+        onChange={(e) => setUpdate(e.target.value, itemProp.id)}
+        onKeyDown={handleUpdatedDone}
+      />
     </li>
   );
 };
+
+TodoItem.propTypes = {
+  itemProp: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  delTodo: PropTypes.func.isRequired,
+  setUpdate: PropTypes.func.isRequired,
+};
+
 export default TodoItem;
